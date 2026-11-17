@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+/*
+  Mandovi design tokens.
+  Layout: quiet app shell (sidebar on desktop, bottom bar on phones), content column capped at ~72rem,
+  8px spacing rhythm, cards used only for objects you can act on.
+
+  Every colour derives from ONE brand hue (--brand-h) so an institution can rebrand
+  from Settings without touching a component. Lightness/chroma are fixed per role so
+  contrast stays at WCAG AA (≥4.5:1 for text) whatever hue is chosen.
+*/
+:root {
+  --brand-h: 172; /* Mandovi green-teal. Changed at runtime by Settings → Branding. */
+
+  --bg: oklch(0.985 0.004 var(--brand-h));
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.965 0.008 var(--brand-h));
+  --border: oklch(0.9 0.01 var(--brand-h));
+  --border-strong: oklch(0.78 0.015 var(--brand-h));
+  --fg: oklch(0.24 0.02 var(--brand-h));
+  --muted: oklch(0.47 0.02 var(--brand-h)); /* ≈6.3:1 on --bg */
+
+  --primary: oklch(0.45 0.09 var(--brand-h)); /* white text on this ≈7:1 */
+  --primary-hover: oklch(0.39 0.09 var(--brand-h));
+  --primary-fg: oklch(0.99 0 0);
+  --primary-soft: oklch(0.95 0.03 var(--brand-h));
+  --primary-text: oklch(0.42 0.09 var(--brand-h)); /* brand-coloured text on light surfaces */
+
+  --success: oklch(0.47 0.12 150);
+  --success-soft: oklch(0.95 0.04 150);
+  --warning: oklch(0.5 0.11 70);
+  --warning-soft: oklch(0.96 0.05 85);
+  --danger: oklch(0.5 0.18 27);
+  --danger-soft: oklch(0.96 0.03 27);
+  --focus: oklch(0.55 0.15 250);
+  --shadow: 0 1px 2px oklch(0.2 0.02 var(--brand-h) / 0.06), 0 1px 1px oklch(0.2 0.02 var(--brand-h) / 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: oklch(0.18 0.012 var(--brand-h));
+    --surface: oklch(0.215 0.014 var(--brand-h));
+    --surface-2: oklch(0.25 0.016 var(--brand-h));
+    --border: oklch(0.31 0.016 var(--brand-h));
+    --border-strong: oklch(0.42 0.02 var(--brand-h));
+    --fg: oklch(0.94 0.008 var(--brand-h));
+    --muted: oklch(0.74 0.015 var(--brand-h));
+    --primary: oklch(0.78 0.11 var(--brand-h));
+    --primary-hover: oklch(0.84 0.1 var(--brand-h));
+    --primary-fg: oklch(0.2 0.03 var(--brand-h));
+    --primary-soft: oklch(0.3 0.04 var(--brand-h));
+    --primary-text: oklch(0.8 0.1 var(--brand-h));
+    --success: oklch(0.78 0.13 150);
+    --success-soft: oklch(0.3 0.05 150);
+    --warning: oklch(0.82 0.12 80);
+    --warning-soft: oklch(0.32 0.05 80);
+    --danger: oklch(0.75 0.14 27);
+    --danger-soft: oklch(0.3 0.06 27);
+    --focus: oklch(0.75 0.13 250);
+    --shadow: none;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: oklch(0.18 0.012 var(--brand-h));
+  --surface: oklch(0.215 0.014 var(--brand-h));
+  --surface-2: oklch(0.25 0.016 var(--brand-h));
+  --border: oklch(0.31 0.016 var(--brand-h));
+  --border-strong: oklch(0.42 0.02 var(--brand-h));
+  --fg: oklch(0.94 0.008 var(--brand-h));
+  --muted: oklch(0.74 0.015 var(--brand-h));
+  --primary: oklch(0.78 0.11 var(--brand-h));
+  --primary-hover: oklch(0.84 0.1 var(--brand-h));
+  --primary-fg: oklch(0.2 0.03 var(--brand-h));
+  --primary-soft: oklch(0.3 0.04 var(--brand-h));
+  --primary-text: oklch(0.8 0.1 var(--brand-h));
+  --success: oklch(0.78 0.13 150);
+  --success-soft: oklch(0.3 0.05 150);
+  --warning: oklch(0.82 0.12 80);
+  --warning-soft: oklch(0.32 0.05 80);
+  --danger: oklch(0.75 0.14 27);
+  --danger-soft: oklch(0.3 0.06 27);
+  --focus: oklch(0.75 0.13 250);
+  --shadow: none;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-fg: var(--primary-fg);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-text: var(--primary-text);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-focus: var(--focus);
+
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-sans: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Type scale (1.2 minor third), body at 15px for long sessions */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.1rem;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 0.9375rem;
+  --text-base--line-height: 1.55rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6rem;
+  --text-xl: 1.35rem;
+  --text-xl--line-height: 1.8rem;
+  --text-2xl: 1.62rem;
+  --text-2xl--line-height: 2rem;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-card: var(--shadow);
+}
+
+html, body, #root { min-height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; letter-spacing: -0.01em; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.tnum { font-variant-numeric: tabular-nums; }
+.eyebrow { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
